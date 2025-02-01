@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head.html :: headFragment}">
+    <title>Add Screening</title>
+</head>
+<header th:insert="~{common/header.html :: header}"> </header>
+<body>
+
+<br>
+
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Add Screening</h2>
+            </div>
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Screening added successfully!</div>
+            </div>
+            <div class="card-body">
+                <form role="form" method="post" th:action="@{'/screening/save'}" th:object="${screening}">
+                    <input type="hidden" name="movieId" th:value="${id}">
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="name">Time:</label>
+                        <input class="form-control" id="name" name="name" placeholder="Enter movie name" type="datetime-local" th:field="*{time}">
+                        <!--<p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('firstName')}"></p>-->
+                    </div>
+                    <label class="form-label">Halls:</label>
+                    <div class="form-group mb-3">
+<!--                        <input type="checkbox" th:value="36" name="hallCapacity">-->
+<!--                        <label class="form-label">Hall 1</label>-->
+<!--                        <input type="checkbox" th:value="42" name="hallCapacity">-->
+<!--                        <label class="form-label">Hall 2</label>-->
+<!--                        <input type="checkbox" th:value="48" name="hallCapacity">-->
+<!--                        <label class="form-label">Hall 3</label>-->
+                        <label for="sel1" class="form-label">Select list (select one):</label>
+                        <select class="form-select" id="sel1" name="hallId">
+                            <option th:each="hall : ${halls}" th:value="${hall.getId()}" th:text="${hall.name} + ' : ' + ${hall.capacity}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group"></div>
+                    <button class="btn btn-primary" type="submit">Add Screening</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head.html :: headFragment}">
+    <title>Ticket</title>
+</head>
+<header th:insert="~{common/header.html :: header}"> </header>
+<body>
+<br>
+
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <h1 style="color: white;text-shadow: 2px 2px 4px #000;">Your Tickets:</h1>
+    </div>
+    <div class="row col-md-8 offset-md-2">
+        <form role="form" method="post" th:action="@{/ticket/save}">
+        <div class="row" th:each="seat : ${seats}">
+            <div class="card mb-3 px-0" style="max-width: 400px;">
+                <div class="row g-0">
+                    <div class="col-md-4" style="max-width: 100px">
+                        <img th:src="${screeningDto.movieDto.image}" class="img-fluid rounded-start" alt="Movie image" >
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${screeningDto.movieDto.name}"></h5>
+                            <p class="card-text mb-1" th:text="${screeningDto.hallDto.name}"></p>
+                            <p class="card-text mb-1" th:text="'Seat: ' + ${seat}"></p>
+                            <p class="card-text mb-1" th:text="'Price: ' + ${screeningDto.movieDto.price} + '0€'"></p>
+                            <input type="hidden" th:value="${seat}" name="seatIds">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!--        <a class="btn btn-primary" th:href="@{ticket/save}" role="button">Buy Ticket(s)</a>-->
+        </div>
+            <input type="hidden" th:value="${screeningDto.id}" name="screeningId">
+            <p th:text="${'Total price: ' + totalPrice + '0€'}" style="color: white"></p>
+            <button class="btn btn-primary" type="submit">Buy Ticket(s)</button>
+            <a th:href="@{'/screening/' + ${screeningDto.id}}" class="btn btn-danger mx-3 px-4">Cancel</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head.html :: headFragment}">
+    <title>Movie Screenings</title>
+</head>
+<header th:insert="~{common/header.html :: header}"> </header>
+<body>
+
+<br>
+
+<div class="container">
+    <div class="rows col-md-10">
+        <h2 style="color: white">Screenings</h2>
+    </div>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Time</th>
+            <th>Hall</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tr th:each="screening : ${screenings}">
+            <td th:text="${screening.time}"></td>
+            <td th:text="${screening.hallDto.name}"></td>
+            <td>
+                <a class="btn btn-success" th:href="@{'/screening/' + ${screening.id}}">Reserve</a>
+            </td>
+        </tr>
+    </table>
+<a th:href="@{'/movie/' + ${id} + '/screening'}" class="btn btn-primary" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Add Screening</a>
+</div>
+</body>
+</html>

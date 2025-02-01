@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head.html :: headFragment}">
+    <title>Screening Reservation</title>
+</head>
+<header th:insert="~{common/header.html :: header}"> </header>
+<body>
+
+<br>
+
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <h1 style="color: white;text-shadow: 2px 2px 4px #000;">Choose your seats:</h1>
+    </div>
+    <div class="row col-md-8 offset-md-2">
+        <div class="card px-0">
+            <div class="card-header">
+                <h2 class="text-center">Seats</h2>
+            </div>
+            <div class="card-body">
+                <form role="form" method="post" th:action="@{/screening/ticket}" class="px-0">
+                    <input type="hidden" th:value="${hallDto.id}" name="hallId">
+                    <input type="hidden" th:value="${id}" name="screeningId">
+                        <div class="form-group mb-3" >
+                            <span th:each="i : ${#numbers.sequence(1,hallDto.capacity)}" style="width: 100px">
+                                <input type="checkbox" th:if="${#lists.contains(seatList, i)}" th:value="${i}" name="takenId" checked disabled>
+                                <input type="checkbox" th:unless="${#lists.contains(seatList, i)}" th:value="${i}" name="seatId">
+                                <label class="form-label px-1"  th:text="'Seat ' + ${i}" style="width: 80px"></label>
+                                <br th:if="${i%6==0}">
+                            </span>
+                        </div>
+                    <button class="btn btn-primary" type="submit">Add reservation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

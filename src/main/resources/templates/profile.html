@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head.html :: headFragment}">
+    <title>Profile</title>
+</head>
+<header th:insert="~{common/header.html :: header}"> </header>
+<body>
+<br>
+
+<div class="container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <h1 class="display-3" style="color: white;text-shadow: 2px 2px 4px #000;">User Profile</h1>
+    </div>
+
+    <!-- User Information -->
+    <div class="profile-info" style="color: white;text-shadow: 2px 2px 4px #000;">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>First Name:</h4>
+                <p id="first-name" th:text="${user.firstName}"/>
+            </div>
+            <div class="col-md-4">
+                <h4>Last Name:</h4>
+                <p id="last-name" th:text="${user.lastName}"/>
+            </div>
+            <div class="col-md-4">
+                <h4>Username:</h4>
+                <p id="username" th:text="${user.username}"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket History -->
+    <div class="ticket-history">
+        <h3 style="color: white;text-shadow: 2px 2px 4px #000;">Previously Bought Tickets</h3>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Movie Title</th>
+                <th>Screening Date</th>
+                <th>Hall</th>
+                <th>Seat Number</th>
+            </tr>
+            </thead>
+            <tbody id="ticket-history" th:each="ticket : ${tickets}">
+            <tr>
+                <td th:text="${ticket.screeningDto.movieDto.name}"></td>
+                <td th:text="${ticket.screeningDto.time}">2024-07-15</td>
+                <td th:text="${ticket.screeningDto.hallDto.name}">Hall 3</td>
+                <td th:text="${ticket.seatDto.id}">Seat A12</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
