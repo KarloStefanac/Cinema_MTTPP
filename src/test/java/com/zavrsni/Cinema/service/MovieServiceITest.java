@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @TestPropertySource(locations = "classpath:application-test.properties")
-public class MovieServiceIT {
+public class MovieServiceITest {
 
     @Autowired
     private MovieServiceImpl movieService;

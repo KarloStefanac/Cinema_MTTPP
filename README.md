@@ -2,6 +2,8 @@
 
 Ovaj dokument opisuje proces testiranja web aplikacije koja se koristi za biranje filma i rezervaciju sjedala u kinodvorani. Dokument navodi nekoliko primjera testova koji su se koristili kako bi se pokrile funkcionalnosti ove web aplikacije.
 
+Za testiranje koristila su se JUnit 5, Mockito te MockMvc okruženja.
+
 ## Struktura testnog direktorija
 Direktoriji u kojima se nalaze testovi su sljedeći:
 
@@ -13,8 +15,8 @@ Cinema_MTTP/
         |-- controller/
             |-- MovieControllerTest/
         |-- service/
-            |-- MovieServiceUT/
-            |-- MovieServiceIT/
+            |-- MovieServiceUTest/
+            |-- MovieServiceITest/
 ```
 - **`controller/`**: Sadrži REST API testove za kontrolere.
 - **`service/`**: Sadrži Unit i Integration testove za servise.
@@ -46,7 +48,7 @@ Pošto Unit testovi ne smiju komunicirati sa repozitorijom, funkcije koje bi doh
 
 `when(movieRepository.findAll()).thenReturn(movieEntities);` definira što bi funkcija koja dohvaća podatke iz repozitorija trebala vratiti prilikom poziva `movieRepository.findAll()` unutar servisa.
 
-`when(movieMapper.mapToMovieDto(any(MovieEntity.class))).thenReturn(new MovieDto());` simulira pretvorbu iz MovieEntity tipa (dohvaćen iz baze) u MovieDto tip (spreman za prikaz). Razlog mocaknja ove funkcije je taj što testiramo dohvaćanje filmova u izolaciji, ne želimo da nam potencijalna greška druge komponente utječe na Unit test ove.
+`when(movieMapper.mapToMovieDto(any(MovieEntity.class))).thenReturn(new MovieDto());` simulira pretvorbu iz MovieEntity tipa (dohvaćen iz baze) u MovieDto tip (spreman za prikaz). Razlog mockanja ove funkcije je taj što testiramo dohvaćanje filmova u izolaciji, ne želimo da nam potencijalna greška druge komponente utječe na Unit test ove.
 
 
 ## Integracijski testovi
@@ -140,3 +142,19 @@ Sljedeći primjer testa simulira upisivanje podataka u formu za dodavanje novog 
 Važna stvar za napomenuti je `@WithMockUser(username = "admin", roles = {"ADMIN"})` anotacija koja simulira autentifikaciju `ADMIN` korisnika, iz razloga što implementacija dopušta dodavanje filmova samo korisnicima sa `ADMIN` privilegijama.
 
 `.param("name", "Inception")` prikazuje jedan od atributa koji se primaju na frontendu prilikom upisa u formu. Prvi parametar označuje ime atributa, a drugi parametar podatak koji želimo "upisati". Na kraju je potrebno simulirati `csrf()` token kako bi uspješno mogli poslati podatke forme na backend. Nakon submittanja podataka iz forme očekujemo redirekciju na `/movie?success` putanju.
+
+## Pokretanje testova
+Kako bi Integracijski testovi radili potrebno je uspostaviti lokalni MySql server za bazu podataka. 
+### 1) Unutar IntelliJ razvojnog okruženja
+Intellij tipično ima ugrađenu potporu za JUnit 5, Mockito i MockMvc treba naknadno uključiti.
+### 2) Korištenjem Maven-a
+`mvn test` naredba pokreće sve testove unutar `src/java/test` datoteke.
+
+`mvn clean test -DTest=MovieServiceImplTest` pokreće testove unutar tog filea.
+## Rezultati
+### REST API testovi:
+![img_1.png](movieControllerTest.png)
+### Unit i Integracijski testovi:
+![img_1.png](MovieServiceUandITest.png)
+### Sve zajedno
+![img_1.png](allTestsResult.png)
