@@ -57,7 +57,6 @@ public class MovieServiceIT {
         assertEquals(List.of(Genre.Thriller), movies.get(0).getGenres());
         assertEquals(15, movies.get(0).getPrice());
         assertEquals("InceptionImage", movies.get(0).getImage());
-
     }
 
     @Test
